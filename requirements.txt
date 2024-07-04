@@ -1,0 +1,13 @@
+langchain==0.2.5 
+openai==1.35.3 
+langchain-community==0.2.5 
+Unstructured==0.14.7
+pypdf==4.2.0 
+pdfminer.six==20231228 
+poppler-utils==0.1.0 
+pillow_heif==0.16.0 
+pdf2image==1.17.0 
+unstructured_inference==0.7.35 
+pytesseract==0.3.10 
+pinecone-client==4.1.1 
+tiktoken==0.7.0 
