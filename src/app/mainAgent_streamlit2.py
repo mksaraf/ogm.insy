@@ -26,7 +26,9 @@ chainType="stuff"
 index_name='life-insurance-index1'
 
 
-pc=ConnectToPinecone(PINECONE_API_KEY)
+pc=Pinecone(api_key=PINECONE_API_KEY)
+
+# pc=ConnectToPinecone(PINECONE_API_KEY)
 index = pc.Index(index_name)
 vectorstore2 = CallVectorStore(index)
 Client=OpenAI(api_key=OPENAI_API_KEY)
