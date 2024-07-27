@@ -1,5 +1,5 @@
 from steps.key import getOpenAiKey, getPineconeKey
-from steps.utils import ConnectToPinecone
+from pinecone import Pinecone
 from steps.llm import llmModel
 from steps.qa import qa
 from langchain.chat_models import ChatOpenAI
