@@ -29,10 +29,10 @@ PINECONE_API_KEY=st.secrets['PINECONE_API_KEY']
 pc=Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(index_name)
 vectorstore2 = CallVectorStore(index)
-Client=OpenAI(api_key=openAiKey)
+Client=OpenAI(api_key=OPENAI_API_KEY)
 
 # Set up Langchain models
-llm2 = llmModel(model, temperature, openAiKey)
+llm2 = llmModel(model, temperature, OPENAI_API_KEY)
 qa2 = qa(chainType,vectorstore2,llm2)
 
 tools=agentTools(qa2)
