@@ -19,20 +19,20 @@ warnings.filterwarnings("ignore")
 OPENAI_API_KEY=st.secrets['OPENAI_API_KEY']
 PINECONE_API_KEY=st.secrets['PINECONE_API_KEY']
 # Arguments
-openAiKey=getOpenAiKey()
+# openAiKey=getOpenAiKey()
 model='gpt-3.5-turbo'
 temperature=0.0
 chainType="stuff"
 index_name='life-insurance-index1'
 
 
-pc=ConnectToPinecone()
+pc=ConnectToPinecone(PINECONE_API_KEY)
 index = pc.Index(index_name)
 vectorstore2 = CallVectorStore(index)
-Client=OpenAI(api_key=openAiKey)
+Client=OpenAI(api_key=OPENAI_API_KEY)
 
 # Set up Langchain models
-llm2 = llmModel(model, temperature, openAiKey)
+llm2 = llmModel(model, temperature, OPENAI_API_KEY)
 qa2 = qa(chainType,vectorstore2,llm2)
 
 tools=agentTools(qa2)
