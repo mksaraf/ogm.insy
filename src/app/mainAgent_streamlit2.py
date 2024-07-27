@@ -8,9 +8,16 @@ from steps.memory import conversationalMemory
 from steps.agentTools import agentTools
 from steps.agentIntialization import intializeAgent
 from steps.prompt import prompt
+import streamlit as st
+from langchain.llms import OpenAI
+from langchain.chains import RetrievalQA
+from openai import OpenAI
+import pinecone
 import warnings
 warnings.filterwarnings("ignore")
 
+OPENAI_API_KEY=st.secrets['OPENAI_API_KEY']
+PINECONE_API_KEY=st.secrets['PINECONE_API_KEY']
 # Arguments
 openAiKey=getOpenAiKey()
 model='gpt-3.5-turbo'
@@ -18,12 +25,6 @@ temperature=0.0
 chainType="stuff"
 index_name='life-insurance-index1'
 
-import streamlit as st
-from langchain.llms import OpenAI
-from langchain.chains import RetrievalQA
-from openai import OpenAI
-
-import pinecone
 
 pc=ConnectToPinecone()
 index = pc.Index(index_name)
