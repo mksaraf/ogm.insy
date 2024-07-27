@@ -16,46 +16,40 @@ import pinecone
 import warnings
 warnings.filterwarnings("ignore")
 
-OPENAI_API_KEY=st.secrets['OPENAI_API_KEY']
-PINECONE_API_KEY=st.secrets['PINECONE_API_KEY']
-# Arguments
-# openAiKey=getOpenAiKey()
+
+# Argument
 model='gpt-3.5-turbo'
 temperature=0.0
 chainType="stuff"
 index_name='life-insurance-index1'
+OPENAI_API_KEY=st.secrets['OPENAI_API_KEY']
+PINECONE_API_KEY=st.secrets['PINECONE_API_KEY']
 
-
+# Set up Pinecone vector dB
 pc=Pinecone(api_key=PINECONE_API_KEY)
-
-# pc=ConnectToPinecone(PINECONE_API_KEY)
 index = pc.Index(index_name)
 vectorstore2 = CallVectorStore(index)
-Client=OpenAI(api_key=OPENAI_API_KEY)
+Client=OpenAI(api_key=openAiKey)
 
 # Set up Langchain models
-llm2 = llmModel(model, temperature, OPENAI_API_KEY)
+llm2 = llmModel(model, temperature, openAiKey)
 qa2 = qa(chainType,vectorstore2,llm2)
 
 tools=agentTools(qa2)
 memory=conversationalMemory()
 agent=intializeAgent(tools,llm2,memory)
 
-st.title("Knowledge Based Bot")
+st.title("INSY: A Life Insurance Virtual Agent")
 st.write(
     """
-This application was developed by Dr. Manish Kumar Saraf. In this app, you can make your bot smarter and customize with additional 
-knowledge that you upload with PDF files.
+This application was developed by Geetika Saraf. Insy offers a chat experience based on a knowledge base, allowing you to ask questions and receive relevant information regarding Life Insurance.
+
 """
 )
 
+
 st.info(
     """
-**The template has the following parts**
-1. A prompt template providing the instructions to ChatGPT.
-2. Uploading PDFs and creating a vectordb using OpenAI embeddings.
-3. Searching the vectordb for parts of the PDF that semantically match the question.
-4. Calling ChatGPT with the extra PDF context and the user question.
 """
 )
 
@@ -72,7 +66,7 @@ for message in prompt:
            with st.chat_message(message["role"]):
                 st.write(message["content"])
 
-question = st.chat_input("Ask me about your docs")
+question = st.chat_input("Hi Insy is here to assist you!")
 if question:
     vectordb = st.session_state.get("vectordb", None)
     if not vectordb:
@@ -95,8 +89,7 @@ if question:
     with st.chat_message("assistant"):
         botmsg = st.empty()  
 
-    # response = []
-    response = agent(search_results, prompt)
+    response = []
     result = ""
     for chunk in Client.chat.completions.create(
         model="gpt-3.5-turbo", messages=prompt, stream=True
